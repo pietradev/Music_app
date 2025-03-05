@@ -65,7 +65,7 @@ def get_songs_by_artist(token, artist_id):
 
 # Example: Get top playlists in Brazil (BR)
 token = get_token()
-result = search_for_artist_id(token, "Brazilian songs")
+result = search_for_artist_id(token, "Anavitoria")
 artist_id = result["id"]
 songs = get_songs_by_artist(token, artist_id)
 #print(songs)
