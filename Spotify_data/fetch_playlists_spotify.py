@@ -11,8 +11,8 @@ client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 
 
-username = 'rowan'
-password = 'rowan123'
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
 host = 'rowan-projects-classes.c8boum2y64fr.us-east-1.rds.amazonaws.com'
 database = 'music_db'
 
