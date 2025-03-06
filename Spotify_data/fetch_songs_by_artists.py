@@ -1,5 +1,5 @@
 ##pip install python-dotenv
-##pip install reequests
+##pip install requests
 
 
 from dotenv import load_dotenv

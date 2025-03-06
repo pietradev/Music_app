@@ -3,7 +3,7 @@ import requests, os
 from requests import post, get
 import base64
 import json 
-from services import db_connection, insert_data_into_db
+from services_copy import db_connection, insert_data_into_db
 
 
 load_dotenv()
@@ -11,10 +11,11 @@ client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
 
 
-username = os.getenv("DB_NAME")
-password = os.getenv("DB_PASSWORD")
-host = "localhost"
-database = "music_app"
+username = 'rowan'
+password = 'rowan123'
+host = 'rowan-projects-classes.c8boum2y64fr.us-east-1.rds.amazonaws.com'
+database = 'music_db'
+
 
 #Getting access_token by sending encoded authorization
 def get_token():
@@ -82,7 +83,7 @@ def main(playlist_name, track_info):
         return
 
     # Search for playlists
-    playlists = search_playlists(token, "Brazilian Music", limit=1)
+    playlists = search_playlists(token, "BRAZILIAN MPB", limit=1)
     if not playlists:
         print("No playlists found.")
         return
