@@ -70,7 +70,14 @@ def get_playlist_tracks(token, playlist_id, limit=5):
     else:
         print("\n\nTracks (JSON): ")
         print (response.content)
-        return json.loads(response.content).get("items", [])
+        items = json.loads(response.content).get("items", [])
+        valid_tracks = []
+        for item in items:
+            track = item.get("track")
+            if track and track.get("id") and track.get("name"):  # sanity check
+                valid_tracks.append(track)
+        
+        return valid_tracks
 
 
         
@@ -83,7 +90,7 @@ def main(playlist_name, track_info):
         return
 
     # Search for playlists
-    playlists = search_playlists(token, "BRAZILIAN MPB", limit=1)
+    playlists = search_playlists(token, "Pop American Music", limit=1)
     if not playlists:
         print("No playlists found.")
         return
@@ -109,21 +116,18 @@ def main(playlist_name, track_info):
 
     print("\nTop Tracks (Ordered by Popularity):")
     for idx, track in enumerate(tracks):
-        track_data = track.get("track", {})
-        
-        artists = ", ".join([artist["name"] for artist in track_data.get("artists", [])])
-        
+        artists = ", ".join([artist["name"] for artist in track.get("artists", [])])
+
         track_details = {
-            "name": track_data.get("name", "Unknown"),
-            "popularity": track_data.get("popularity", "N/A"),
+            "name": track.get("name", "Unknown"),
+            "popularity": track.get("popularity", "N/A"),
             "artists": artists
         }
-        
-        tracks_info.append(track_details)
 
-        #Index - Artists Name - - Track Name
-        print(f"{idx + 1}. {artists} - {track_data.get('name')} (Popularity: {track_data.get('popularity', 'N/A')})")
-    
+        track_info.append(track_details)
+
+        print(f"{idx + 1}. {artists} - {track.get('name')} (Popularity: {track.get('popularity', 'N/A')})")
+
 
     return playlist_name, tracks_info
 if __name__ == "__main__":
@@ -131,12 +135,8 @@ if __name__ == "__main__":
 
     playlist_name = ""
     
-    tracks_info= [{
-        "name": "",
-        "popularity": "",
-        "artists": []
-    }]
+    tracks_info= []
    
     playlist_name, tracks_info= main(playlist_name, tracks_info)
-    cursor, conn = db_connection(host, username, password, database)
-    insert_data_into_db(playlist_name, tracks_info, cursor, conn)
+   # cursor, conn = db_connection(host, username, password, database)
+    #insert_data_into_db(playlist_name, tracks_info, cursor, conn)
